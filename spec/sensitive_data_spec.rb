@@ -41,6 +41,30 @@ RSpec.describe Ankerutil::Encrypt::Sensitive::SensitiveData do
       encrypted = '0001^JZC9vHiiDtPAMZf/9XW9NOkgyuxu0xDkSRc+mYkHAtDKKzKeGxBLs8eeATSZ+XBBOE64OKokmM0VY6Cp2QUAfA==^4fc0f4fa0d02ef6da9bdd535857bb258856e3547cbf9cbfc07d33424ac8757b3^LLHe21lfhIz4z3Pe/BqjftrHekz/LKiLmXUxqsU0JZrlBO2EcyFlpoem8zZsdZ1/wJtYq3OsJaQXBI8rXRcDEg=='
       expect(@sensitive_data.aes128_sha256_decrypt_sensitive_data(encrypted)).to eq('{"key": "value", "chinese": "中文"}')
     end
+
+    it 'should correctly decrypt data encrypted by Go version' do
+      # 这是由 Go 版本加密的数据
+      encrypted = '0001^JZC9vHiiDtPAMZf/9XW9NOkgyuxu0xDkSRc+mYkHAtDKKzKeGxBLs8eeATSZ+XBBOE64OKokmM0VY6Cp2QUAfA==^4fc0f4fa0d02ef6da9bdd535857bb258856e3547cbf9cbfc07d33424ac8757b3^LLHe21lfhIz4z3Pe/BqjftrHekz/LKiLmXUxqsU0JZrlBO2EcyFlpoem8zZsdZ1/wJtYq3OsJaQXBI8rXRcDEg=='
+      expect(@sensitive_data.aes128_sha256_decrypt_sensitive_data(encrypted)).to eq('{"key": "value", "chinese": "中文"}')
+    end
+
+    it 'should correctly encrypt data that can be decrypted by Go version' do
+      plaintext = '{"key": "value", "chinese": "中文"}'
+      encrypted = @sensitive_data.aes128_sha256_encrypt_sensitive_data(plaintext)
+      expect(@sensitive_data.aes128_sha256_decrypt_sensitive_data(encrypted)).to eq(plaintext)
+    end
+
+    it 'should correctly decrypt data encrypted by Node.js version' do
+      # 这是由 Node.js 版本加密的数据
+      encrypted = '0001^JZC9vHiiDtPAMZf/9XW9NOkgyuxu0xDkSRc+mYkHAtDKKzKeGxBLs8eeATSZ+XBBOE64OKokmM0VY6Cp2QUAfA==^4fc0f4fa0d02ef6da9bdd535857bb258856e3547cbf9cbfc07d33424ac8757b3^LLHe21lfhIz4z3Pe/BqjftrHekz/LKiLmXUxqsU0JZrlBO2EcyFlpoem8zZsdZ1/wJtYq3OsJaQXBI8rXRcDEg=='
+      expect(@sensitive_data.aes128_sha256_decrypt_sensitive_data(encrypted)).to eq('{"key": "value", "chinese": "中文"}')
+    end
+
+    it 'should correctly encrypt data that can be decrypted by Node.js version' do
+      plaintext = '{"key": "value", "chinese": "中文"}'
+      encrypted = @sensitive_data.aes128_sha256_encrypt_sensitive_data(plaintext)
+      expect(@sensitive_data.aes128_sha256_decrypt_sensitive_data(encrypted)).to eq(plaintext)
+    end
   end
 end 
 
