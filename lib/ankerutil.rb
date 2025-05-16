@@ -6,6 +6,6 @@ module AnkerUtil
 
   def self.init_sensitive_key(cbc_key, root_key)
     StringEncryptedSerialization.init_sensitive_key(cbc_key, root_key)
-    JSONEncryptedSerialization.init_sensitive_key(cbc_key, root_key)
+    JsonEncryptedSerialization.init_sensitive_key(cbc_key, root_key)
   end
 end
