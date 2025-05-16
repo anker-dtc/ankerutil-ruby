@@ -3,7 +3,7 @@ require_relative '../lib/ankerutil'
 
 class EncryptionInteroperabilityTest < Test::Unit::TestCase
   def setup
-    @sensitive_data = Ankerutil::Encrypt::Sensitive::SensitiveData.new
+    @sensitive_data = Ankerutil::SensitiveData.new
     
     # 统一的测试密钥
     @cbc_key = '0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef'
