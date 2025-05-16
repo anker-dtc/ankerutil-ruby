@@ -2,7 +2,7 @@ require 'openssl'
 require 'base64'
 require 'securerandom'
 
-module Ankerutil
+module AnkerUtil
   class SensitiveData
     CONSTANTS = {
       SENSITIVE_DATA_KEY_LEN: 64,

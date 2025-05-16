@@ -1,4 +1,4 @@
-module Ankerutil
+module AnkerUtil
   class NacosClient
     def initialize(host, username, password)
       @host = host

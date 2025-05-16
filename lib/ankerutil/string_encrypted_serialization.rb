@@ -1,6 +1,4 @@
-require 'active_record'
-
-module Ankerutil
+module AnkerUtil
 class StringEncryptedSerialization
   # 基于 ActiveModel::Type::Value 实现更优， rails 官方的加密就是这样实现的，但是订阅中心的 rails 4 版本不支持
   class << self

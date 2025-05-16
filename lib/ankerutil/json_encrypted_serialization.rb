@@ -1,7 +1,4 @@
-require 'active_record'
-require 'json'
-
-module Ankerutil
+module AnkerUtil
   class JsonEncryptedSerialization
     # 定义需要加密的 JSON 字段名
     JSON_FIELD_NAMES = %w[name email].freeze

@@ -3,7 +3,7 @@ require_relative '../lib/ankerutil'
 
 class SensitiveDataTest < Test::Unit::TestCase
   def setup
-    @sensitive_data = Ankerutil::SensitiveData.new
+    @sensitive_data = AnkerUtil::SensitiveData.new
     @cbc_key = '0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef'
     @root_key = { '0001' => '0123456789abcdef0123456789abcdef' }
     @test_data = 'Hello, World!'
