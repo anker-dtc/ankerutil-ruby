@@ -1,7 +1,7 @@
-require_relative 'lib/encrypt/sensitive/sensitive_data'
+require_relative 'lib/ankerutil'
 
 # 创建实例
-sensitive_data = Ankerutil::Encrypt::Sensitive::SensitiveData.new
+sensitive_data = Ankerutil::SensitiveData.new
 
 # 初始化密钥
 cbc_key = '0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef'

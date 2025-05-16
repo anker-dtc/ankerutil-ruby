@@ -14,8 +14,7 @@ Ruby 敏感数据加密工具库，提供 AES-128-CBC + SHA256 混合加密方�
 
 ## 安装
 
-在 Gemfile 中添加：
-```ruby
+在 Gemfile 中添加：```ruby
 gem 'ankerutil-ruby', path: '/path/to/ankerutil-ruby'
 ```
 
@@ -30,7 +29,7 @@ root_key = {
   '0002' => 'abcdef0123456789abcdef0123456789'   # 历史版本根密钥
 }
 
-handler = SensitiveData.new
+handler = AnkerUtil::SensitiveData.new
 handler.init_sensitive_key(cbc_key, root_key)
 
 # 加密/解密
@@ -55,7 +54,7 @@ root_key = {
   '0002' => 'abcdef0123456789abcdef0123456789'   # 历史版本根密钥
 }
 
-handler = SensitiveData.new
+handler = AnkerUtil::SensitiveData.new
 handler.init_sensitive_key(cbc_key, root_key)
 
 # 加密/解密
