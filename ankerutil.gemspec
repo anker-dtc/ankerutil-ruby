@@ -12,7 +12,7 @@ Gem::Specification.new do |spec|
   spec.description = "Ruby 敏感数据加密工具库，提供 AES-128-CBC + SHA256 混合加密方案，支持多版本根密钥管理。支持跨语言兼容，自动处理 Ruby 字符串编码问题。"
   spec.homepage = "https://github.com/anker/ankerutil-ruby"
   spec.license = "MIT"
-  spec.required_ruby_version = ">= 2.5.0"
+  spec.required_ruby_version = ">= 2.2.0"
 
   spec.metadata["homepage_uri"] = spec.homepage
   spec.metadata["source_code_uri"] = spec.homepage
