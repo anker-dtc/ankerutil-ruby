@@ -5,8 +5,9 @@ module AnkerUtil
   
     # 基于 ActiveModel::Type::Value 实现更优， rails 官方的加密就是这样实现的，但是订阅中心的 rails 4 版本不支持
     class << self
-      def init_sensitive_key(cbc_key, root_key)
+      def init_sensitive_key(cbc_key, root_key, disable_write=false)
         @sensitive_data = SensitiveData.new
+        @disable_write = disable_write
         @sensitive_data.init_sensitive_key(cbc_key, root_key)
       end
 
@@ -22,7 +23,7 @@ module AnkerUtil
       end
     
       def dump(value)
-        return value if value.blank?
+        return value if value.blank? || is_encrypted?(value) || @disable_write
       
         encrypt_json_fields(value)
       end
