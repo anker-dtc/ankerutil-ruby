@@ -5,7 +5,7 @@ class StringEncryptedSerialization
     def init_sensitive_key(cbc_key, root_key, disable_write=false)
       @sensitive_data = SensitiveData.new
       @disable_write = disable_write
-      @sensitive_data.init_sensitive_key(cbc_key, root_key, disable_write)
+      @sensitive_data.init_sensitive_key(cbc_key, root_key)
     end
 
     def sensitive_data
@@ -20,7 +20,7 @@ class StringEncryptedSerialization
     end
 
     def dump(value)
-      return value if value.blank? || is_encrypted?(value) || @disable_write
+      return value if value.blank? || @disable_write || is_encrypted?(value)
 
       sensitive_data.aes128_sha256_encrypt_sensitive_data(value.to_s)
     end

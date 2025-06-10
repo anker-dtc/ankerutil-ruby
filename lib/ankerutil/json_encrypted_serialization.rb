@@ -23,7 +23,7 @@ module AnkerUtil
       end
     
       def dump(value)
-        return value if value.blank? || is_encrypted?(value) || @disable_write
+        return value if value.blank? || @disable_write || is_encrypted?(value)
       
         encrypt_json_fields(value)
       end
