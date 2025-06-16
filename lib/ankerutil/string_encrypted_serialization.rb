@@ -28,7 +28,7 @@ class StringEncryptedSerialization
     def is_encrypted?(value)
       return false if value.blank?
 
-      value.split('^').size == 4
+      value.to_s.split('^').size == 4
     end
   end
 end
