@@ -14,19 +14,19 @@ class StringEncryptedSerialization
     end
 
     def load(value)
-      return value if value.blank? || !is_encrypted?(value)
+      return value if value.nil? || !is_encrypted?(value)
 
       sensitive_data.aes128_sha256_decrypt_sensitive_data(value.to_s)
     end
 
     def dump(value)
-      return value if value.blank? || @disable_write || is_encrypted?(value)
+      return value if value.nil? || @disable_write || is_encrypted?(value)
 
       sensitive_data.aes128_sha256_encrypt_sensitive_data(value.to_s)
     end
 
     def is_encrypted?(value)
-      return false if value.blank?
+      return false if value.nil?
 
       value.to_s.split('^').size == 4
     end
