@@ -56,7 +56,7 @@ module AnkerUtil
 
     # AES-CBC 加密
     def aes_cbc_encrypt(plaintext, key)
-      return '' if plaintext.nil? || plaintext.empty?
+      return plaintext if plaintext.nil? || plaintext.empty?
       
       key_bytes = [key].pack('H*')
       iv = SecureRandom.random_bytes(CONSTANTS[:AES_BLOCK_SIZE])
@@ -79,7 +79,7 @@ module AnkerUtil
 
     # AES-CBC 解密
     def aes_cbc_decrypt(ciphertext, key)
-      return '' if ciphertext.nil? || ciphertext.empty?
+      return ciphertext if ciphertext.nil? || ciphertext.empty?
       
       begin
         key_bytes = [key].pack('H*')
@@ -99,7 +99,7 @@ module AnkerUtil
         # 转换为UTF-8编码
         result.force_encoding('UTF-8')
       rescue => e
-        ''  # 解密失败时返回空字符串
+        ciphertext
       end
     end
 
@@ -117,7 +117,7 @@ module AnkerUtil
 
     # AES128+SHA256 加密敏感数据
     def aes128_sha256_encrypt_sensitive_data(plaintext)
-      return '' if plaintext.nil? || plaintext.empty?
+      return plaintext if plaintext.nil? || plaintext.empty?
 
       begin
         # 确保输入是UTF-8编码
@@ -129,13 +129,13 @@ module AnkerUtil
 
         "#{@sensitive_root_key_version}^#{envelope_key}^#{digest}^#{secret_data}"
       rescue => e
-        ''  # 加密失败时返回空字符串
+        plaintext  # 加密失败时返回空字符串
       end
     end
 
     # AES128+SHA256 解密敏感数据
     def aes128_sha256_decrypt_sensitive_data(ciphertext)
-      return '' if ciphertext.nil? || ciphertext.empty?
+      return ciphertext if ciphertext.nil? || ciphertext.empty?
 
       begin
         parts = ciphertext.split('^')
@@ -144,19 +144,19 @@ module AnkerUtil
         if parts.length == CONSTANTS[:NEW_CIPHERTEXT_SPLIT_LEN]
           root_key_version, envelope_key, digest, secret_data = parts
 
-          return '' if [root_key_version, envelope_key, digest, secret_data].any?(&:nil?)
+          return ciphertext if [root_key_version, envelope_key, digest, secret_data].any?(&:nil?)
 
           root_key = @sensitive_root_key[root_key_version]
-          return '' unless root_key  # 如果找不到对应版本的root_key，返回空字符串
+          return ciphertext unless root_key  # 如果找不到对应版本的root_key，返回空字符串
 
           data_key = aes_cbc_decrypt(envelope_key, root_key)
-          return '' if data_key.empty?
+          return ciphertext if data_key.empty?
 
           plaintext = aes_cbc_decrypt(secret_data, data_key)
-          return '' if plaintext.empty?
+          return ciphertext if plaintext.empty?
 
           # 验证摘要时确保使用UTF-8编码
-          return '' unless sha256(plaintext) == digest
+          return ciphertext unless sha256(plaintext) == digest
 
           # 确保返回UTF-8编码的字符串
           plaintext.encode('UTF-8')
@@ -165,7 +165,7 @@ module AnkerUtil
           decrypt_sensitive_data_by_data_key(ciphertext)
         end
       rescue => e
-        ''  # 解密失败时返回空字符串
+        ciphertext  # 解密失败时返回原值
       end
     end
 
@@ -173,21 +173,21 @@ module AnkerUtil
     def decrypt_sensitive_data_by_data_key(ciphertext)
       begin
         parts = ciphertext.split('^')
-        return '' unless parts.length == CONSTANTS[:OLD_CIPHERTEXT_SPLIT_LEN]
+        return ciphertext unless parts.length == CONSTANTS[:OLD_CIPHERTEXT_SPLIT_LEN]
 
         root_key_version, secret_data = parts
-        return '' unless root_key_version == CONSTANTS[:DEFAULT_ROOT_KEY_VERSION] && !secret_data.empty?
+        return ciphertext unless root_key_version == CONSTANTS[:DEFAULT_ROOT_KEY_VERSION] && !secret_data.empty?
 
         result = aes_cbc_decrypt(secret_data, @sensitive_data_key)
         result.encode('UTF-8')
       rescue => e
-        ''  # 解密失败时返回空字符串
+        ciphertext  # 解密失败时返回原值
       end
     end
 
     # 小写转换后加密
     def lower_aes128_sha256_encrypt_sensitive_data(plaintext)
-      return '' if plaintext.nil? || plaintext.empty?
+      return plaintext if plaintext.nil? || plaintext.empty?
       aes128_sha256_encrypt_sensitive_data(plaintext.to_s.downcase)
     end
   end
