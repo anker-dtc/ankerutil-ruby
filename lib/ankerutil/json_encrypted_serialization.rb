@@ -2,7 +2,10 @@ module AnkerUtil
   class JsonEncryptedSerialization
     # 定义需要加密的 JSON 字段名
     JSON_FIELD_NAMES = %w[address1 address2 zip phone name first_name last_name company
-      latitude longitude email].freeze
+      latitude longitude email company_name
+      caller_name caller_phone recipient_name recipient_phone call_details
+      buyer_name buyer_email buyer_phone_number buyer_postal_code
+      ship_address_1 ship_address_2 ship_postal_code ship_phone_number].freeze
   
     # 基于 ActiveModel::Type::Value 实现更优， rails 官方的加密就是这样实现的，但是订阅中心的 rails 4 版本不支持
     class << self
