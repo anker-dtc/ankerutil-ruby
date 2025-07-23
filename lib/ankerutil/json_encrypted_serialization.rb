@@ -2,7 +2,7 @@ module AnkerUtil
   class JsonEncryptedSerialization
     # 定义需要加密的 JSON 字段名
     JSON_FIELD_NAMES = %w[address1 address2 zip phone name first_name last_name company
-      latitude longitude email company_name
+      latitude longitude email company_name address
       caller_name caller_phone recipient_name recipient_phone call_details
       buyer_name buyer_email buyer_phone_number buyer_postal_code
       ship_address_1 ship_address_2 ship_postal_code ship_phone_number].freeze
